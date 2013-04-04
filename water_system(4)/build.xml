@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="hw05">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="JUnit 4.libraryclasspath"> <!-- where are our jars? -->
+        <pathelement location="junit.jar"/>
+        <pathelement location="org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+    </path>
+    <path id="hw05.classpath">
+        <pathelement location="bin"/> <!-- where do we put compiled bits? -->
+        <path refid="JUnit 4.libraryclasspath"/>
+    </path>
+    <target name="build">
+        <mkdir dir="bin"/>
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="JUnit 4.libraryclasspath"/> <!-- import JUnit library so we can compile JUnit test cases! -->
+            <!-- <classpath refid="hw05.classpath"/> -->
+        </javac>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target name="run">
+        <java classname="Main" failonerror="true" fork="yes">
+            <classpath refid="hw05.classpath"/> <!-- so we can find our compiled bits! -->
+        </java>
+    </target>
+    <target name="TankTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="TankTest" todir="${junit.output.dir}"/>
+            <classpath refid="hw05.classpath"/>
+        </junit>
+    </target>
+    <target name="WaterSystemTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="WaterSystemTest" todir="${junit.output.dir}"/>
+            <classpath refid="hw05.classpath"/>
+        </junit>
+    </target>
+</project>
